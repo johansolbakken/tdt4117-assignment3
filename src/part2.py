@@ -11,7 +11,7 @@ def build_dictionary_and_corpus(processed_paragraphs):
     dictionary = corpora.Dictionary(processed_paragraphs)
     
     # 2. Filtering out stopwords using provided list
-    stopwords_file = os.path.join(config.DATA_FOLDER, "pg3300.txt")
+    stopwords_file = os.path.join(config.DATA_FOLDER, "stopwords.csv")
     log.assertion(os.path.exists(stopwords_file), "Data file not found")
     stopwords = open(stopwords_file, "r", encoding="utf-8").read().split(",")
     

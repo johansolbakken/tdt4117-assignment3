@@ -28,12 +28,5 @@ def preprocess(text):
 
     stemmed_paragraphs = [stem_tokens(p) for p in cleaned_paragraphs]
 
-    # 7. Using the FreqDist class of NLTK to see the count of specific words
-    all_words = [word for paragraph in stemmed_paragraphs for word in paragraph]
-    freq_dist = FreqDist(all_words)
-
-    # Checking the frequency of the word "tax"
-    # print(freq_dist["tax"])
-
     # Returning the list of processed paragraphs for querying purposes
     return stemmed_paragraphs, original_paragraphs

@@ -61,7 +61,8 @@ def main():
         tfidf_model, lsi_model, tfidf_index, lsi_index = part3.build_retrieval_models(dictionary, corpus)
         part3.interpret_lsi_topics(lsi_model)
 
-    part4.qviri(dictionary, tfidf_index,tfidf_model, original_paragraphs)
+    part4.qviri(dictionary, tfidf_index, tfidf_model, original_paragraphs, lsi_index, lsi_model)
+    #part4.boh("What is the function of money?", dictionary, tfidf_model, lsi_model, corpus, original_paragraphs)
 
 
 if __name__ == "__main__":
