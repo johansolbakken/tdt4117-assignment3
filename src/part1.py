@@ -9,7 +9,8 @@ def preprocess(text):
     original_paragraphs = [p.strip() for p in text.split('\n\n') if p]
 
     # 3. Partitioning the loaded text into separate paragraphs & filtering "Gutenberg"
-    paragraphs = [p for p in original_paragraphs if "gutenberg" not in p.lower()]
+    original_paragraphs = [p for p in original_paragraphs if "gutenberg" not in p.lower() and p.strip() != ""]
+    paragraphs = [p for p in original_paragraphs if p]
 
     # 4. Tokenizing paragraphs into individual words
     tokenized_paragraphs = [p.split() for p in paragraphs]

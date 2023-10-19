@@ -12,6 +12,8 @@ import nltk
 import gensim
 import part1
 import part2
+import part3
+import part4
 
 def make_paragraphs(text:str) -> list:
     paragraphs = []
@@ -54,6 +56,12 @@ def main():
     
     with performance.Timer("Build Dictionary and Corpus"):
         dictionary, corpus = part2.build_dictionary_and_corpus(stemmed_paragraphs)
+
+    with performance.Timer("Build Retrieval Models"):
+        tfidf_model, lsi_model, tfidf_index, lsi_index = part3.build_retrieval_models(dictionary, corpus)
+        part3.interpret_lsi_topics(lsi_model)
+
+    part4.qviri(dictionary, tfidf_index,tfidf_model, original_paragraphs)
 
 
 if __name__ == "__main__":
