@@ -8,26 +8,17 @@ import string
 import performance
 import log
 from nltk.stem.porter import PorterStemmer
-
-class Document:
-    def __init__(self, _id:int, text:str) -> None:
-        self._id = _id
-        self.text = text
-
-    def clone(self):
-        return Document(self._id, self.text)
+import nltk
 
 def make_paragraphs(text:str) -> list:
     paragraphs = []
-    _id = 0
     with codecs.open(text, "r", encoding="utf-8") as f:
         lines = f.readlines()
         paragraph = ""
         for line in lines:
             if line.strip() == "":
                 if paragraph.strip() != "":
-                    paragraphs.append(Document(_id, paragraph.strip()))
-                    _id += 1
+                    paragraphs.append(paragraph.strip())
                 paragraph = ""
             else:
                 paragraph += line
@@ -56,6 +47,7 @@ def stem_tokens(tokens:list):
     return [stemmer.stem(token) for token in tokens]
 
 def main():
+    # PART 1
     random.seed(123)
 
     pg3300 = os.path.join(config.DATA_FOLDER, "pg3300.txt")
@@ -63,17 +55,19 @@ def main():
 
     with performance.Timer("Make paragraphs"):
         paragraphs = make_paragraphs(pg3300)
-        documents = [p.clone() for p in paragraphs]
     with performance.Timer("Filter out gutenberg"):
-        documents = filter_out(documents, lambda p: not "gutenberg" in p.text.lower())
+        paragraphs = filter_out(paragraphs, lambda p: not "gutenberg" in p.lower())
+        original_paragraphs = [p for p in paragraphs]
     with performance.Timer("Clean text"):
-        documents = [Document(p._id, clean_text(p.text)) for p in documents]
+        paragraphs = [clean_text(p) for p in paragraphs]
     with performance.Timer("Tokenize"):
-        documents = [Document(p._id, p.text.split()) for p in documents]
-    with performance.Timer("Remove stopwords"):
-        documents = [Document(p._id, remove_stopwords(p.text)) for p in documents]
+        paragraphs = [p.split(" ") for p in paragraphs]
     with performance.Timer("Stem words"):
-        documents = [Document(p._id, stem_tokens(p.text)) for p in documents]
+        paragraphs = [stem_tokens(p) for p in paragraphs]
+
+    frequencies = nltk.FreqDist([token for paragraph in paragraphs for token in paragraph])
+
+    # PART 2
 
 if __name__ == "__main__":
     main()
